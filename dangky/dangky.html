@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ĐĂNG KÝ THÀNH VIÊN</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <section class="container">
+        <header>Đăng ký người dùng Web Âm Nhạc   </header>
+        <form action="dangky.php" method="POST" enctype="multipart/form-data" class="form1">
+            <div class="column">
+                <div class="input">
+                    <label>Họ và tên: </label>
+                    <input type="text" id="hoten" name="hoten" placeholder="Nhập họ tên của bạn" required>
+                </div>
+                <div class="input">
+                    <label> Email: </label>
+                    <input type="text" id="email" name="email" placeholder="Địa chỉ email của bạn" required>
+                </div>
+            </div>
+            <div class="column">
+                <div class="input">
+                    <label>Nghệ danh (nếu có): </label>
+                    <input type="text" id="username" name="username" placeholder="Không có hãy nhập &ldquo;không&rdquo;" required>
+                </div>
+                <div class="input">
+                    <label>Facebook: </label>
+                    <input type="text" id="fb" name="fb" placeholder="Nhập link Fb cá nhân" required>
+                </div>
+            </div>
+            <div class="column">
+                <div class="input">
+                    <label> Số điện thoại: </label>
+                    <input type="text" id="sdt" name="sdt" placeholder="Số điện thoại liên lạc" required>
+                </div>
+                <div class="input">
+                    <label> Năm sinh: </label>
+                    <input type="date" id="birth" name="birth" placeholder="Nhập năm sinh của bạn" required>
+                </div>
+            </div>
+            <div class="column"> 
+                <div class="input">
+                    <label>Mật khẩu: </label>
+                    <input type="password" id="matkhau" name="matkhau" placeholder="Nhập mật khẩu của bạn " required>
+                </div>
+                <div class="input">
+                    <label>Nhập lại mật khẩu : </label>
+                    <input type="password" id="matkhau2" name="matkhau2" placeholder="Nhập lại mật khẩu của bạn" required > 
+                </div>
+            </div>
+            <div class="gender">
+                <h3>Giới tính</h3>
+                <div class="option">
+                    <div class="check">
+                        <input type="radio" id="gioitinh_nam" name="gioitinh" value="Nam" required>
+                        <label for="gioitinh_nam">Nam</label>
+                    </div>
+                    <div class="check">
+                        <input type="radio" id="gioitinh_nu" name="gioitinh" value="Nữ" required>
+                        <label for="gioitinh_nu">Nữ</label>
+                    </div>
+                </div>
+            </div>
+            <div class="genre">
+                <h3>Thể loại</h3>
+                <div class="option">
+                    <input type="checkbox" id="Pop" name="options[]" value="Pop">
+                    <label for="Pop">Pop</label><br>
+    
+                    <input type="checkbox" id="Rap" name="options[]" value="Rap">
+                    <label for="Rap">Rap</label><br>
+            
+                    <input type="checkbox" id="Rock" name="options[]" value="Rock">
+                    <label for="option3">Rock</label><br>
+            
+                    <input type="checkbox" id="RnB" name="options[]" value="Rnb">
+                    <label for="option4">RnB</label><br>
+            
+                    <input type="checkbox" id="Grunge" name="options[]" value="Grunge">
+                    <label for="option5">Grunge</label><br><br>
+                </div>
+            </div>
+            <div class="column">
+                <div class="input">
+                    <div class="file">
+                        <label> Bài nhạc của bạn  </label>
+                        <input type="file" id="music" name="music" required>
+                    </div>
+                </div>
+                <div class="input">
+                    <div class="file">
+                        <label> File hình ảnh </label>
+                        <input type="file" id="pic" name="pic" required>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <label for="captcha">Captcha:</label>
+                <input type="text" name="captcha" required>
+                <img src="captcha.php" alt="CAPTCHA Image"><br>
+            </div>
+            <div class="button">
+                <input type="submit" id="dangky" value="Đăng ký">
+            </div>
+        </form>
+    </section>
+</body>
+</html>

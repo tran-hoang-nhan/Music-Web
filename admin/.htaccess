@@ -1,0 +1,12 @@
+
+RewriteEngine On
+
+AuthType Basic
+AuthName "Restricted Area"
+AuthUserFile "C:/xampp/htdocs/Source_code/baitap_detai/admin/.htpasswd"
+Require valid-user
+<FilesMatch "\.(css|js|jpg|png|gif)$">
+  Require all granted
+</FilesMatch>
+
+

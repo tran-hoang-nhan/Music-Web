@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+body {
+    background: #0F2027;
+    background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+    background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+.container {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto; /* Căn giữa container */
+    padding: 20px; /* Thêm khoảng cách bên trong */
+    box-sizing: border-box; /* Bao gồm padding trong chiều rộng */
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.column {
+    text-align: center;
+    margin-bottom: 20px; /* Thêm khoảng cách dưới */
+}
+
+.column i {
+    font-size: 30px;
+    color:white;
+}
+.column i:hover{
+    color : green
+}
+table {
+    width: 70%; /* Cho bảng rộng vừa phải */
+    margin: 0 auto; /* Căn giữa bảng */
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1); /* Nền trong suốt */
+    color: white;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px; /* Tăng khoảng cách */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+th {
+    color:burlywood; /* Màu tiêu đề */
+    border-bottom: 2px solid white;
+}
+
+tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Đường kẻ mềm mại */
+}
+
+.delete-link {
+    color: white;
+    text-decoration: none;
+}
+
+.delete-link:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+
+.column h3 {
+    margin-top: 20px; /* Giãn cách với bảng */
+}
+
+.column a {
+    color: burlywood;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.column a:hover {
+    color: red;
+}

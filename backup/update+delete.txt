@@ -1,0 +1,129 @@
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Tìm kiếm
+    if (isset($_POST['search_id'])) {
+        $search_id = trim($_POST['search_id']);
+        
+        // Kiểm tra nếu ID không rỗng
+        if (!empty($search_id)) {
+            $sql_search = "SELECT thanhvien.id, thanhvien.hoten, thanhvien.username, thanhvien.fb, thanhvien.sdt, thanhvien.birth, thanhvien.gioitinh, thanhvien.ngaydky, GROUP_CONCAT(album.tenAlbum SEPARATOR ', ') AS albums
+                        FROM thanhvien
+                        LEFT JOIN album ON thanhvien.id = album.thanhvien_id
+                        WHERE thanhvien.id = ?
+                        GROUP BY thanhvien.id";
+            $stmt_search = $conn->prepare($sql_search);
+            $stmt_search->bind_param("i", $search_id);
+            $stmt_search->execute();
+            $result_search = $stmt_search->get_result();
+
+            if ($result_search->num_rows > 0) {
+                $user_info_search = $result_search->fetch_assoc(); // Lấy thông tin thành viên
+            } else {
+                $error_message_search = "ID không tồn tại.";
+            }
+        }
+    }
+
+    // Cập nhật
+    if (isset($_POST['find_edit_id'])) {
+        $edit_id = trim($_POST['find_edit_id']); // ID từ form chỉnh sửa
+        if (!empty($edit_id)) {
+            $sql_edit_search = "SELECT * FROM thanhvien WHERE id=?";
+            $stmt_edit_search = $conn->prepare($sql_edit_search);
+            $stmt_edit_search->bind_param("i", $edit_id);
+            $stmt_edit_search->execute();
+            $result_edit_search = $stmt_edit_search->get_result();
+
+            if ($result_edit_search->num_rows > 0) {
+                $user_info_edit = $result_edit_search->fetch_assoc();
+            } else {
+                $error_message_edit = "ID không tồn tại.";
+            }
+        }
+    }
+
+// Cập nhật
+    if (isset($_POST['update_id'])) {
+        $update_id = trim($_POST['update_id']);
+        
+        if ($user_info_edit) {
+            $hoten = trim($_POST['hoten']);
+            $phai = $_POST['phai'];
+            $tenAlbum = trim($_POST['tenAlbum']); // Nhận tên album mới
+
+            // Cập nhật thông tin thành viên
+            $sql_update = "UPDATE thanhvien SET hoten=?, phai=? WHERE id=?";
+            $stmt_update = $conn->prepare($sql_update);
+            $stmt_update->bind_param("sii", $hoten, $phai, $update_id);
+
+            if ($stmt_update->execute()) {
+                // Cập nhật album (nếu thành viên có album)
+                if (!empty($tenAlbum)) {
+                    $sql_update_album = "UPDATE album SET tenAlbum=? WHERE thanhvien_id=?";
+                    $stmt_update_album = $conn->prepare($sql_update_album);
+                    $stmt_update_album->bind_param("si", $tenAlbum, $update_id);
+                    $stmt_update_album->execute();
+                }
+                echo "Cập nhật thành công!";
+            } else {
+                echo "Cập nhật thất bại.";
+            }
+        }
+    }
+}
+// Xử lý xóa thông tin thành viên
+$error_message_delete = "";
+// Xóa thành viên và album
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Xóa album trước khi xóa thành viên
+    $sql_delete_album = "DELETE FROM album WHERE thanhvien_id=?";
+    $stmt_delete_album = $conn->prepare($sql_delete_album);
+    $stmt_delete_album->bind_param("i", $id);
+    $stmt_delete_album->execute();
+
+    // Xóa thành viên
+    $sql_delete = "DELETE FROM thanhvien WHERE id=?";
+    $stmt_delete = $conn->prepare($sql_delete);
+    $stmt_delete->bind_param("i", $id);
+
+    if ($stmt_delete->execute()) {
+        echo "Xóa thành công!";
+    } else {
+        echo "Xóa thất bại.";
+    }
+}
+
+
+
+    <h2>Chỉnh Sửa Thông Tin Thành Viên</h2>
+    <form method="POST" action="admin.php">
+        Nhập ID để tìm kiếm: <input type="text" name="find_edit_id" required>
+        <input type="submit" value="Tìm Kiếm">
+    </form>
+
+    <?php if ($user_info_edit): ?>
+        <form method="POST" action="admin.php">
+            <input type="hidden" name="update_id" value="<?= $user_info_edit['id'] ?>">
+            Họ Tên: <input type="text" name="hoten" value="<?= htmlspecialchars($user_info_edit['hoten']) ?>" required>
+            Giới tính: 
+            <select name="phai">
+                <option value="0" <?= $user_info_edit['gioitinh'] == 0 ? 'selected' : '' ?>>Nam</option>
+                <option value="1" <?= $user_info_edit['gioitinh'] == 1 ? 'selected' : '' ?>>Nữ</option>
+            </select>
+            Album: <input type="text" name="tenAlbum" value="<?= htmlspecialchars($user_info_edit['tenAlbum']) ?>"> <!-- Thêm trường Album -->
+            <input type="submit" value="Cập Nhật">
+        </form>
+    <?php elseif (!empty($error_message_edit)): ?>
+        <p style="color:red;"><?= $error_message_edit; ?></p>
+    <?php endif; ?>
+
+    <!-- Form Xóa -->
+    <h2>Xóa Thông Tin Thành Viên</h2>
+    <form method="GET" action="admin.php">
+        Nhập ID của thành viên để xóa: <input type="text" name="id" required>
+        <input type="submit" value="Xóa">
+    </form>
+    <?php if (!empty($error_message_delete)): ?>
+        <p style="color:red;"><?= $error_message_delete; ?></p>
+    <?php endif; ?>
